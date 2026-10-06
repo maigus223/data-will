@@ -1,0 +1,173 @@
+{
+  "version": "0.1",
+  "id": "dw-2026-003-example-riche",
+  "declarant": {
+    "display_name": "Sophie Example",
+    "identifiers": [
+      {
+        "type": "email",
+        "value": "sophie@example.com"
+      },
+      {
+        "type": "did",
+        "value": "did:key:z6Mk..."
+      }
+    ]
+  },
+  "assets": [
+    {
+      "id": "asset-gmail-pro",
+      "type": "account",
+      "label": "Gmail pro"
+    },
+    {
+      "id": "asset-wallet-btc",
+      "type": "key",
+      "label": "Wallet BTC"
+    },
+    {
+      "id": "asset-likeness",
+      "type": "other",
+      "label": "Directives likeness IA"
+    },
+    {
+      "id": "asset-company-drive",
+      "type": "file",
+      "label": "Drive entreprise"
+    }
+  ],
+  "beneficiaries": [
+    {
+      "id": "ben-partner-biz",
+      "display_name": "Associe",
+      "identifiers": [
+        {
+          "type": "email",
+          "value": "partner@example.com"
+        }
+      ],
+      "rights": [
+        {
+          "asset_id": "asset-gmail-pro",
+          "permissions": [
+            "read",
+            "export",
+            "manage"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ben-child-1",
+      "display_name": "Lea Example",
+      "identifiers": [
+        {
+          "type": "email",
+          "value": "lea@example.com"
+        }
+      ],
+      "rights": [
+        {
+          "asset_id": "asset-wallet-btc",
+          "permissions": [
+            "read",
+            "export"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ben-child-2",
+      "display_name": "Noah Example",
+      "identifiers": [
+        {
+          "type": "email",
+          "value": "noah@example.com"
+        }
+      ],
+      "rights": [
+        {
+          "asset_id": "asset-wallet-btc",
+          "permissions": [
+            "read",
+            "export"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ben-public",
+      "display_name": "Public",
+      "identifiers": [
+        {
+          "type": "other",
+          "value": "public"
+        }
+      ],
+      "rights": [
+        {
+          "asset_id": "asset-likeness",
+          "permissions": [
+            "read"
+          ]
+        }
+      ]
+    }
+  ],
+  "triggers": [
+    {
+      "id": "trigger-death",
+      "type": "death",
+      "description": "Deces"
+    },
+    {
+      "id": "trigger-incapacity",
+      "type": "incapacity",
+      "description": "Incapacite"
+    },
+    {
+      "id": "trigger-date",
+      "type": "custom",
+      "description": "Date directive"
+    }
+  ],
+  "accepted_proofs": [
+    {
+      "trigger_id": "trigger-death",
+      "proofs": [
+        {
+          "type": "official_death_certificate",
+          "min_count": 1
+        },
+        {
+          "type": "attestation",
+          "min_count": 3
+        }
+      ]
+    },
+    {
+      "trigger_id": "trigger-incapacity",
+      "proofs": [
+        {
+          "type": "medical_certificate",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "trigger_id": "trigger-date",
+      "proofs": [
+        {
+          "type": "date_reached",
+          "min_count": 1
+        }
+      ]
+    }
+  ],
+  "created_at": "2026-10-05T11:00:00Z",
+  "updated_at": "2026-10-05T12:00:00Z",
+  "signature": {
+    "note": "Signature placeholder"
+  },
+  "language": "fr"
+}

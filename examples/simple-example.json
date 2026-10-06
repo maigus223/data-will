@@ -1,0 +1,86 @@
+{
+  "version": "0.1",
+  "id": "dw-2026-001-example-simple",
+  "declarant": {
+    "display_name": "Alex Example",
+    "identifiers": [
+      {
+        "type": "email",
+        "value": "alex@example.com"
+      }
+    ]
+  },
+  "assets": [
+    {
+      "id": "asset-email",
+      "type": "account",
+      "label": "Personal email",
+      "locator": "alex@example.com"
+    },
+    {
+      "id": "asset-photos",
+      "type": "service",
+      "label": "Cloud photo library"
+    }
+  ],
+  "beneficiaries": [
+    {
+      "id": "ben-partner",
+      "display_name": "Sam Example",
+      "identifiers": [
+        {
+          "type": "email",
+          "value": "sam@example.com"
+        }
+      ],
+      "rights": [
+        {
+          "asset_id": "asset-email",
+          "permissions": [
+            "read",
+            "export"
+          ]
+        },
+        {
+          "asset_id": "asset-photos",
+          "permissions": [
+            "read",
+            "export",
+            "delete"
+          ]
+        }
+      ]
+    }
+  ],
+  "triggers": [
+    {
+      "id": "trigger-death",
+      "type": "death",
+      "description": "Official death of the declarant"
+    }
+  ],
+  "accepted_proofs": [
+    {
+      "trigger_id": "trigger-death",
+      "proofs": [
+        {
+          "type": "official_death_certificate",
+          "description": "Death certificate",
+          "min_count": 1
+        }
+      ]
+    }
+  ],
+  "instructions": [
+    {
+      "id": "instr-1",
+      "audience": "ben-partner",
+      "message": "Please keep the family photos."
+    }
+  ],
+  "created_at": "2026-10-05T10:00:00Z",
+  "updated_at": "2026-10-05T10:00:00Z",
+  "signature": {
+    "note": "Signature placeholder"
+  }
+}

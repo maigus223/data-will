@@ -1,0 +1,115 @@
+{
+  "version": "0.1",
+  "id": "dw-2026-002-example-familial",
+  "declarant": {
+    "display_name": "Karim Example",
+    "identifiers": [
+      {
+        "type": "email",
+        "value": "karim@example.com"
+      }
+    ]
+  },
+  "assets": [
+    {
+      "id": "asset-photos",
+      "type": "service",
+      "label": "Cloud photo library",
+      "description": "Photos 2010-2026"
+    },
+    {
+      "id": "asset-passwords",
+      "type": "key",
+      "label": "Password manager vault"
+    }
+  ],
+  "beneficiaries": [
+    {
+      "id": "ben-partner",
+      "display_name": "Amina Example",
+      "identifiers": [
+        {
+          "type": "email",
+          "value": "amina@example.com"
+        }
+      ],
+      "rights": [
+        {
+          "asset_id": "asset-photos",
+          "permissions": [
+            "read",
+            "export"
+          ]
+        },
+        {
+          "asset_id": "asset-passwords",
+          "permissions": [
+            "read",
+            "export",
+            "manage"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ben-child",
+      "display_name": "Yanis Example",
+      "identifiers": [
+        {
+          "type": "email",
+          "value": "yanis@example.com"
+        }
+      ],
+      "rights": [
+        {
+          "asset_id": "asset-photos",
+          "permissions": [
+            "read",
+            "export"
+          ]
+        }
+      ]
+    }
+  ],
+  "triggers": [
+    {
+      "id": "trigger-death",
+      "type": "death",
+      "description": "Deces officiel"
+    },
+    {
+      "id": "trigger-inactivity",
+      "type": "inactivity",
+      "description": "Inactivite 90j"
+    }
+  ],
+  "accepted_proofs": [
+    {
+      "trigger_id": "trigger-death",
+      "proofs": [
+        {
+          "type": "official_death_certificate",
+          "min_count": 1
+        },
+        {
+          "type": "attestation",
+          "min_count": 2
+        }
+      ]
+    },
+    {
+      "trigger_id": "trigger-inactivity",
+      "proofs": [
+        {
+          "type": "inactivity_proof",
+          "min_count": 1
+        }
+      ]
+    }
+  ],
+  "created_at": "2026-10-05T10:00:00Z",
+  "updated_at": "2026-10-05T10:00:00Z",
+  "signature": {
+    "note": "Signature placeholder"
+  }
+}

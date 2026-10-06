@@ -1,0 +1,274 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://maigus223.github.io/data-will/schema/datawill-0.1.schema.json",
+  "title": "DataWill v0.1",
+  "description": "Open format for digital wills and posthumous access declarations - experimental draft v0.1",
+  "type": "object",
+  "required": [
+    "version",
+    "id",
+    "declarant",
+    "assets",
+    "beneficiaries",
+    "triggers",
+    "accepted_proofs",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^0\\.1"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "declarant": {
+      "type": "object",
+      "required": [
+        "identifiers"
+      ],
+      "properties": {
+        "display_name": {
+          "type": "string"
+        },
+        "identifiers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "type",
+              "value"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Open list, custom values allowed. Recommended values were previously in enum."
+              },
+              "value": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "assets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "label"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "description": "Open list, recommended: account, file, key, service, other"
+          },
+          "label": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "locator": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "beneficiaries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "rights"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "display_name": {
+            "type": "string"
+          },
+          "identifiers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "type",
+                "value"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "rights": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "asset_id",
+                "permissions"
+              ],
+              "properties": {
+                "asset_id": {
+                  "type": "string"
+                },
+                "permissions": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "Open list, custom values allowed. Recommended values were previously in enum."
+                  },
+                  "minItems": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "triggers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "description": "Open list, custom values allowed. Recommended values were previously in enum."
+          },
+          "description": {
+            "type": "string"
+          },
+          "parameters": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "accepted_proofs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "trigger_id",
+          "proofs"
+        ],
+        "properties": {
+          "trigger_id": {
+            "type": "string"
+          },
+          "proofs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "Open list: official_death_certificate, court_decision, attestation, inactivity_proof, medical_certificate, date_reached, custom"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "min_count": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "instructions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "message"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "audience": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "signature": {
+      "type": "object",
+      "description": "Optional in v0.1, placeholder allowed",
+      "properties": {
+        "algorithm": {
+          "type": "string"
+        },
+        "public_key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "canonicalization": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "previous_id": {
+      "type": "string"
+    },
+    "language": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

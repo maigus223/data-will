@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DataWill v0.1 - maigus223.github.io/data-will</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#fafafa;max-width:1120px;margin:0 auto;padding:16px}
+nav{display:flex;gap:4px;border-bottom:1px solid #e4e4e7}nav button{padding:8px 16px;border:none;background:transparent;cursor:pointer}nav button.active{border-bottom:2px solid #0e7490;font-weight:600}
+pre{background:#f4f4f5;padding:1rem;overflow:auto;white-space:pre-wrap} a{color:#0e7490}
+footer{border-top:1px solid #e4e4e7;font-size:12px;color:#71717a;margin-top:40px;padding-top:16px}
+</style>
+</head>
+<body>
+<header>
+<h1>DataWill</h1>
+<p><a href="https://github.com/maigus223/data-will">GitHub: maigus223/data-will</a> | Live: <a href="https://maigus223.github.io/data-will/">maigus223.github.io/data-will</a> | 2026-10-05</p>
+<nav>
+<button id="btn-overview" class="active" onclick="showTab('overview')">Overview (README)</button>
+<button id="btn-spec" onclick="showTab('spec')">Specification (11 sections)</button>
+<button id="btn-examples" onclick="showTab('examples')">Examples (3)</button>
+<button id="btn-questions" onclick="showTab('questions')">Open Questions</button>
+<button id="btn-schema" onclick="showTab('schema')">Schema (open lists)</button>
+</nav>
+</header>
+<main>
+<div id="tab-overview"></div>
+<div id="tab-spec" style="display:none"></div>
+<div id="tab-examples" style="display:none"><div id="ex-readme"></div><pre id="ex-simple"></pre><pre id="ex-familial"></pre><pre id="ex-riche"></pre></div>
+<div id="tab-questions" style="display:none"></div>
+<div id="tab-schema" style="display:none"></div>
+</main>
+<footer>
+<p>Spec CC-BY 4.0 | Code MIT (c) 2026 Mahamadou Issiaka MAIGA (MAIGUS) | Repo <a href="https://github.com/maigus223/data-will">github.com/maigus223/data-will</a></p>
+<p>This is a single static file: no fetch, no Google Fonts, no external requests; it works from file:// and on GitHub Pages. The README, spec, schema and examples shown here are copies embedded in this file; refresh them with <code>python scripts/sync_index.py</code>. Markdown is displayed as plain text. An optional React version (rendered Markdown) is in <code>demo/</code>.</p>
+<p>Schema $id: https://maigus223.github.io/data-will/schema/datawill-0.1.schema.json - open lists, custom allowed - examples use only @example.com</p>
+</footer>
+<script type="text/plain" id="data-readme"># DataWill
+
+> Open format for digital wills and posthumous access declarations
+
+**Experimental draft v0.1. Not a standard. Not legally binding. Not security-audited.**
+
+DataWill is a simple, open and interoperable format that lets a person declare, during their lifetime:
+
+- Who may access which digital assets
+- Under which conditions (death, incapacity, prolonged inactivity…)
+- With which accepted proofs
+- And with which specific instructions
+
+It is **not** another encrypted vault.  
+It is the missing open contract that vaults, platforms, notaries and heirs can all understand and apply.
+
+**Demo live:** https://maigus223.github.io/data-will/  
+*(GitHub Pages serves `index.html` at repo root)*
+
+---
+
+## Why DataWill exists
+
+Today:
+- Open-source projects (Sarcophagus, HandoverKey, Hereditas, Deadhand, etc.) each use their own format.
+- Big platforms (Google, Apple, Meta) keep everything in closed silos.
+- There is no simple, shared, machine-readable way to express digital last wishes.
+
+Result: data is often lost, locked, or recovered through opaque and stressful processes.
+
+DataWill aims to fill that gap with a clear, open contract.
+
+---
+
+## Core Principles
+
+1. The person remains in full control until the trigger conditions are met.
+2. Declarations must be simple to create and update.
+3. Access is granular (not all-or-nothing).
+4. Trigger conditions and accepted proofs are explicit.
+5. The format is open and designed for interoperability.
+6. Everything is versioned and revocable.
+7. Privacy is respected by default.
+
+---
+
+## What a DataWill contains (high level)
+
+- Identity of the declarant (privacy-friendly)
+- List of digital assets covered
+- Beneficiaries and their exact rights
+- Trigger conditions
+- Accepted proofs of the trigger event
+- Optional messages or instructions
+- Cryptographic signature for integrity (optional in v0.1)
+- Version and timestamps
+
+---
+
+## Contents
+
+- [`SPEC.md`](SPEC.md) — Specification draft v0.1
+- [`examples/`](examples/) — Concrete examples (3)
+- [`schema/datawill-0.1.schema.json`](schema/datawill-0.1.schema.json) — JSON Schema (machine reference)
+- [`index.html`](index.html) — Preview site served by GitHub Pages (single static file, no external requests). It embeds copies of the repository files; regenerate them with `python scripts/sync_index.py`.
+- [`demo/`](demo/) — Optional React + Vite version of the preview (renders Markdown, reads the files at build time). See `demo/README.md`.
+- [`scripts/validate.py`](scripts/validate.py) — Validator for examples against schema
+- [`scripts/sync_index.py`](scripts/sync_index.py) — Refreshes the copies embedded in `index.html` (`--check` to verify)
+- [`QUESTIONS.md`](QUESTIONS.md) — Open questions
+- [`.github/`](.github/) — Issue templates and CI
+- [`CONTRIBUTING.md`](CONTRIBUTING.md), [`CHANGELOG.md`](CHANGELOG.md), [`SECURITY.md`](SECURITY.md)
+- [`LICENSE`](LICENSE) — MIT (for demo code, validator, and any future reference code)
+- [`LICENSE-SPEC`](LICENSE-SPEC) — CC BY 4.0 (for the specification text: SPEC.md, README.md, QUESTIONS.md, examples, schema)
+
+---
+
+## Quick start
+
+### Validate examples
+
+```bash
+python3 -m pip install jsonschema
+python3 scripts/validate.py
+```
+
+### Refresh the preview page
+
+```bash
+python3 scripts/sync_index.py          # rewrite the copies embedded in index.html
+python3 scripts/sync_index.py --check  # fail if they are out of date (used in CI)
+```
+
+### Optional React demo
+
+```bash
+cd demo
+npm install
+npm run dev     # local development
+npm run build   # single-file build in demo/dist/index.html
+```
+
+`demo/dist/index.html` is not copied automatically: copy it over `index.html` only if you want to publish the React version instead of the static page.
+
+---
+
+## Status
+
+This is an early experimental draft (v0.1).
+
+Contributions, reviews, security feedback and discussions are very welcome. See `CONTRIBUTING.md`.
+
+---
+
+## License
+
+- **Specification text** (`SPEC.md`, `README.md`, `examples/`, `QUESTIONS.md`, `schema/`): [Creative Commons Attribution 4.0 International](LICENSE-SPEC) (CC BY 4.0)
+- **Demo code, validator, and any future reference code** (`demo/`, `scripts/`, `index.html`): [MIT License](LICENSE)
+
+The preview page uses system fonts only — no Google Fonts or external requests.
+
+---
+
+## Authorship and disclaimers
+
+- Conceived by Mahamadou Issiaka MAIGA (MAIGUS).
+- Drafted with AI assistance under the direction of the author.
+- Provided "as is", without warranty of any kind.
+- This project is independent and is not affiliated with, endorsed by, or sponsored by any existing vault, platform or standards body.
+
+---
+
+## Résumé en français
+
+**DataWill** est un format ouvert et interopérable qui permet à une personne de déclarer, de son vivant, qui pourra accéder à ses actifs numériques, sous quelles conditions (décès, incapacité, inactivité…), avec quelles preuves, et avec quelles instructions.
+
+Ce n’est **pas** un coffre-fort de plus. C’est le contrat ouvert qui manquait pour que les différents systèmes puissent enfin se comprendre.
+</script>
+<script type="text/plain" id="data-spec"># DataWill Specification – Draft v0.1
+
+**Status:** Experimental draft  
+**Author:** Mahamadou Issiaka MAIGA (MAIGUS)  
+**Date:** 2026-10-05  
+**License:** CC-BY 4.0 (spec text), MIT (reference code & demo)
+
+---
+
+## 1. Goal
+
+Define a simple, open, machine-readable format for expressing digital wills and posthumous (or incapacity-related) access rules.
+
+DataWill is intentionally minimal. It focuses on **declaration** and **interoperability**, not on implementing the vault, the key management, or the legal enforcement.
+
+---
+
+## 2. Document Structure
+
+A DataWill document is a JSON object. In v0.1 the `signature` field is **optional** (see §9) to allow early experimentation. All other fields below are required unless marked optional.
+
+### Required top-level fields (v0.1)
+
+| Field              | Type     | Description |
+|--------------------|----------|-------------|
+| `version`          | string   | Specification version (e.g. `"0.1"`) |
+| `id`               | string   | Unique identifier of this DataWill (UUID recommended) |
+| `declarant`        | object   | Information about the person making the declaration |
+| `assets`           | array    | List of digital assets covered |
+| `beneficiaries`    | array    | List of people/entities and their rights |
+| `triggers`         | array    | Conditions that activate the will |
+| `accepted_proofs`  | array    | What proofs are accepted for each trigger |
+| `created_at`       | string   | Creation timestamp (ISO 8601) |
+| `updated_at`       | string   | Last update timestamp (ISO 8601) |
+
+### Optional fields (v0.1)
+
+| Field              | Type     | Description |
+|--------------------|----------|-------------|
+| `signature`        | object   | Cryptographic signature (optional in v0.1, see §9) |
+| `instructions`     | array    | Free-form messages or special wishes |
+| `previous_id`      | string   | ID of the DataWill this one supersedes |
+| `language`         | string   | Primary language of free-text fields (BCP 47) |
+
+---
+
+## 3. Declarant
+
+```json
+"declarant": {
+  "display_name": "Optional human-readable name",
+  "identifiers": [
+    {
+      "type": "email" | "did" | "other",
+      "value": "..."
+    }
+  ]
+}
+```
+
+Keep personal data minimal. Strong identifiers (government ID numbers, etc.) should be avoided inside the document when possible.
+
+---
+
+## 4. Assets
+
+Each asset describes something the declarant wants to control access to.
+
+```json
+{
+  "id": "asset-1",
+  "type": "account" | "file" | "key" | "service" | "other",
+  "label": "Personal Gmail",
+  "description": "Optional longer description",
+  "locator": "Optional URL, account identifier, or reference"
+}
+```
+
+### Asset types (v0.1 - open list)
+
+- `account` - Online account (email, cloud)
+- `file` - File or folder
+- `key` - Cryptographic key, seed phrase, password vault
+- `service` - Service or subscription
+- `other` - Anything else
+
+> The list is intentionally open. Implementations MUST accept unknown types but SHOULD warn. Future versions may register additional types.
+
+---
+
+## 5. Beneficiaries and Rights
+
+```json
+{
+  "id": "ben-1",
+  "display_name": "Alice Example",
+  "identifiers": [ ... ],
+  "rights": [
+    {
+      "asset_id": "asset-1",
+      "permissions": ["read", "export"]
+    }
+  ]
+}
+```
+
+### Standard permissions
+
+- `read`
+- `export`
+- `manage`
+- `delete`
+- `transfer`
+
+Additional custom permissions are allowed but should be clearly documented. The permissions list is open.
+
+---
+
+## 6. Triggers
+
+Conditions that can activate the DataWill.
+
+```json
+{
+  "id": "trigger-death",
+  "type": "death" | "incapacity" | "inactivity" | "custom",
+  "description": "Official death of the declarant",
+  "parameters": {
+    "inactivity_days": 365
+  }
+}
+```
+
+---
+
+## 7. Accepted Proofs
+
+What evidence is required to consider a trigger activated.
+
+```json
+{
+  "trigger_id": "trigger-death",
+  "proofs": [
+    {
+      "type": "official_death_certificate",
+      "description": "Death certificate issued by a competent authority",
+      "min_count": 1
+    },
+    {
+      "type": "attestation",
+      "description": "Attestation from family / notary",
+      "min_count": 2
+    }
+  ]
+}
+```
+
+### Proof types (v0.1 - open list, examples)
+
+- `official_death_certificate` - Official death certificate
+- `court_decision` - Court declaration
+- `attestation` - Human attestation (K-of-N)
+- `inactivity_proof` - Proof of prolonged inactivity
+- `medical_certificate` - Medical certificate for incapacity
+- `date_reached` - Calendar date reached
+- `custom` - Custom proof type
+
+> This list is **open**. The examples in `examples/` use `attestation`, `inactivity_proof`, `medical_certificate`, `date_reached`. Implementations MUST accept unknown proof types. If you need a new type, open an issue.
+
+The exact validation of proofs is left to the implementing system or human process. DataWill only declares what the person accepts.
+
+---
+
+## 8. Instructions (optional)
+
+Free-form wishes that do not grant technical access rights.
+
+```json
+{
+  "id": "instr-1",
+  "audience": "all_beneficiaries" | "specific beneficiary id",
+  "message": "Please delete my personal photos after exporting the family ones."
+}
+```
+
+---
+
+## 9. Signature (optional in v0.1)
+
+In v0.1, `signature` is **optional** to allow early adoption without crypto tooling. When present, it SHOULD follow this structure:
+
+```json
+"signature": {
+  "algorithm": "Ed25519" | "ES256" | "other",
+  "public_key": "did:key:z... or base64-encoded key",
+  "value": "base64-encoded signature",
+  "canonicalization": "JCS (RFC 8785) or other",
+  "note": "Optional human-readable note"
+}
+```
+
+Recommended approach:
+- Canonicalize the JSON excluding the `signature` field using JCS (RFC 8785)
+- Sign with a key controlled by the declarant (Ed25519 recommended)
+- Store result in `signature`
+
+**Placeholder:** Examples in v0.1 use `{"note": "Signature placeholder – to be defined"}`. A validator MUST accept this placeholder in v0.1 but SHOULD warn. In v1.0, `signature` will become required and fully specified.
+
+---
+
+## 10. Design Goals for later versions
+
+- Support for encrypted sections
+- Multi-signature / threshold schemes
+- Clearer proof presentation formats (W3C VC)
+- Compatibility notes for existing vaults
+- Internationalization
+
+---
+
+## 11. Non-goals (v0.1)
+
+- Implementing the vault or key recovery mechanism
+- Providing legal enforceability by itself
+- Defining a global public registry
+- Solving jurisdictional differences
+</script>
+<script type="text/plain" id="data-questions"># Open Questions – DataWill v0.1
+
+These questions are intentionally left open. Feedback is highly welcome.
+
+1. **Proofs of death / incapacity**  
+   What is the minimal viable set of accepted proofs that is both practical for ordinary people and sufficiently trustworthy?
+
+2. **Multi-jurisdiction**  
+   How should a DataWill handle differences between national succession and data-protection laws?
+
+3. **Encryption of sensitive parts**  
+   Should the format support encrypted sections so that only designated beneficiaries can read certain assets or messages?
+
+4. **Revocation and superseding**  
+   What is the cleanest way to revoke or replace a previous DataWill so that implementers can reliably know which version is current?
+
+5. **Discovery / registry**  
+   Should there be any optional public or semi-public discovery mechanism, or must everything stay fully private and presented by the heirs?
+
+6. **Technical inactivity signals**  
+   How far should the specification go in defining machine-detectable inactivity (last login, dead-man’s switch, etc.)?
+
+7. **Relationship with existing vaults**  
+   What is the lightest useful compatibility layer so that projects like Sarcophagus, HandoverKey, etc. could consume a DataWill?
+
+8. **Identity of beneficiaries**  
+   How should beneficiaries be identified in a privacy-preserving yet usable way (email, DID, government ID hash, trusted contact list…)?
+
+9. **Signature canonicalization**  
+   Should we mandate JCS (RFC 8785) for v1.0? What about detached JWS?
+
+10. **Likeness & AI policy**  
+    Should there be a standard field for posthumous AI likeness permissions (as discussed in DADE CG)?
+</script>
+<script type="text/plain" id="data-ex-readme"># Examples
+
+This folder contains illustrative DataWill documents in official v0.1 format.
+
+All emails use `@example.com` (reserved for documentation per RFC 2606).
+
+- `simple-example.json` — Minimal realistic example (one beneficiary, two assets, death trigger) — Alex Example. Uses `account`, `service`, proof `official_death_certificate`.
+- `familial-example.json` — Familial case (photos + passwords, 2 beneficiaries, death OR 90d inactivity, 2-of-3 attestation threshold) — Karim Example. Uses asset type `key` and proof types `attestation`, `inactivity_proof`.
+- `riche-example.json` — Rich case (granularity, date trigger, wallet, AI likeness policy, DID) — Sophie Example. Uses `medical_certificate`, `date_reached`, asset types `key`, `file`, `other`.
+
+**Signature note:** All examples use placeholder signature `{"note": "Signature placeholder – to be defined"}`. In v0.1, `signature` is optional and placeholder is accepted by validator with a warning. In v1.0 it will be required and fully specified (see SPEC.md §9).
+
+All examples validate against `../schema/datawill-0.1.schema.json` via `python ../scripts/validate.py`. All use `@example.com`.
+</script>
+<script type="text/plain" id="data-schema">{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://maigus223.github.io/data-will/schema/datawill-0.1.schema.json",
+  "title": "DataWill v0.1",
+  "description": "Open format for digital wills and posthumous access declarations - experimental draft v0.1",
+  "type": "object",
+  "required": [
+    "version",
+    "id",
+    "declarant",
+    "assets",
+    "beneficiaries",
+    "triggers",
+    "accepted_proofs",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^0\\.1"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "declarant": {
+      "type": "object",
+      "required": [
+        "identifiers"
+      ],
+      "properties": {
+        "display_name": {
+          "type": "string"
+        },
+        "identifiers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "type",
+              "value"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Open list, custom values allowed. Recommended values were previously in enum."
+              },
+              "value": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "assets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "label"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "description": "Open list, recommended: account, file, key, service, other"
+          },
+          "label": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "locator": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "beneficiaries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "rights"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "display_name": {
+            "type": "string"
+          },
+          "identifiers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "type",
+                "value"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "rights": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "asset_id",
+                "permissions"
+              ],
+              "properties": {
+                "asset_id": {
+                  "type": "string"
+                },
+                "permissions": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "Open list, custom values allowed. Recommended values were previously in enum."
+                  },
+                  "minItems": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "triggers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "description": "Open list, custom values allowed. Recommended values were previously in enum."
+          },
+          "description": {
+            "type": "string"
+          },
+          "parameters": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "accepted_proofs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "trigger_id",
+          "proofs"
+        ],
+        "properties": {
+          "trigger_id": {
+            "type": "string"
+          },
+          "proofs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "Open list: official_death_certificate, court_decision, attestation, inactivity_proof, medical_certificate, date_reached, custom"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "min_count": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "instructions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "message"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "audience": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "signature": {
+      "type": "object",
+      "description": "Optional in v0.1, placeholder allowed",
+      "properties": {
+        "algorithm": {
+          "type": "string"
+        },
+        "public_key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "canonicalization": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "previous_id": {
+      "type": "string"
+    },
+    "language": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}</script>
+<script type="text/plain" id="data-simple">{
+  "version": "0.1",
+  "id": "dw-2026-001-example-simple",
+  "declarant": {
+    "display_name": "Alex Example",
+    "identifiers": [
+      {
+        "type": "email",
+        "value": "alex@example.com"
+      }
+    ]
+  },
+  "assets": [
+    {
+      "id": "asset-email",
+      "type": "account",
+      "label": "Personal email",
+      "locator": "alex@example.com"
+    },
+    {
+      "id": "asset-photos",
+      "type": "service",
+      "label": "Cloud photo library"
+    }
+  ],
+  "beneficiaries": [
+    {
+      "id": "ben-partner",
+      "display_name": "Sam Example",
+      "identifiers": [
+        {
+          "type": "email",
+          "value": "sam@example.com"
+        }
+      ],
+      "rights": [
+        {
+          "asset_id": "asset-email",
+          "permissions": [
+            "read",
+            "export"
+          ]
+        },
+        {
+          "asset_id": "asset-photos",
+          "permissions": [
+            "read",
+            "export",
+            "delete"
+          ]
+        }
+      ]
+    }
+  ],
+  "triggers": [
+    {
+      "id": "trigger-death",
+      "type": "death",
+      "description": "Official death of the declarant"
+    }
+  ],
+  "accepted_proofs": [
+    {
+      "trigger_id": "trigger-death",
+      "proofs": [
+        {
+          "type": "official_death_certificate",
+          "description": "Death certificate",
+          "min_count": 1
+        }
+      ]
+    }
+  ],
+  "instructions": [
+    {
+      "id": "instr-1",
+      "audience": "ben-partner",
+      "message": "Please keep the family photos."
+    }
+  ],
+  "created_at": "2026-10-05T10:00:00Z",
+  "updated_at": "2026-10-05T10:00:00Z",
+  "signature": {
+    "note": "Signature placeholder"
+  }
+}</script>
+<script type="text/plain" id="data-familial">{
+  "version": "0.1",
+  "id": "dw-2026-002-example-familial",
+  "declarant": {
+    "display_name": "Karim Example",
+    "identifiers": [
+      {
+        "type": "email",
+        "value": "karim@example.com"
+      }
+    ]
+  },
+  "assets": [
+    {
+      "id": "asset-photos",
+      "type": "service",
+      "label": "Cloud photo library",
+      "description": "Photos 2010-2026"
+    },
+    {
+      "id": "asset-passwords",
+      "type": "key",
+      "label": "Password manager vault"
+    }
+  ],
+  "beneficiaries": [
+    {
+      "id": "ben-partner",
+      "display_name": "Amina Example",
+      "identifiers": [
+        {
+          "type": "email",
+          "value": "amina@example.com"
+        }
+      ],
+      "rights": [
+        {
+          "asset_id": "asset-photos",
+          "permissions": [
+            "read",
+            "export"
+          ]
+        },
+        {
+          "asset_id": "asset-passwords",
+          "permissions": [
+            "read",
+            "export",
+            "manage"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ben-child",
+      "display_name": "Yanis Example",
+      "identifiers": [
+        {
+          "type": "email",
+          "value": "yanis@example.com"
+        }
+      ],
+      "rights": [
+        {
+          "asset_id": "asset-photos",
+          "permissions": [
+            "read",
+            "export"
+          ]
+        }
+      ]
+    }
+  ],
+  "triggers": [
+    {
+      "id": "trigger-death",
+      "type": "death",
+      "description": "Deces officiel"
+    },
+    {
+      "id": "trigger-inactivity",
+      "type": "inactivity",
+      "description": "Inactivite 90j"
+    }
+  ],
+  "accepted_proofs": [
+    {
+      "trigger_id": "trigger-death",
+      "proofs": [
+        {
+          "type": "official_death_certificate",
+          "min_count": 1
+        },
+        {
+          "type": "attestation",
+          "min_count": 2
+        }
+      ]
+    },
+    {
+      "trigger_id": "trigger-inactivity",
+      "proofs": [
+        {
+          "type": "inactivity_proof",
+          "min_count": 1
+        }
+      ]
+    }
+  ],
+  "created_at": "2026-10-05T10:00:00Z",
+  "updated_at": "2026-10-05T10:00:00Z",
+  "signature": {
+    "note": "Signature placeholder"
+  }
+}</script>
+<script type="text/plain" id="data-riche">{
+  "version": "0.1",
+  "id": "dw-2026-003-example-riche",
+  "declarant": {
+    "display_name": "Sophie Example",
+    "identifiers": [
+      {
+        "type": "email",
+        "value": "sophie@example.com"
+      },
+      {
+        "type": "did",
+        "value": "did:key:z6Mk..."
+      }
+    ]
+  },
+  "assets": [
+    {
+      "id": "asset-gmail-pro",
+      "type": "account",
+      "label": "Gmail pro"
+    },
+    {
+      "id": "asset-wallet-btc",
+      "type": "key",
+      "label": "Wallet BTC"
+    },
+    {
+      "id": "asset-likeness",
+      "type": "other",
+      "label": "Directives likeness IA"
+    },
+    {
+      "id": "asset-company-drive",
+      "type": "file",
+      "label": "Drive entreprise"
+    }
+  ],
+  "beneficiaries": [
+    {
+      "id": "ben-partner-biz",
+      "display_name": "Associe",
+      "identifiers": [
+        {
+          "type": "email",
+          "value": "partner@example.com"
+        }
+      ],
+      "rights": [
+        {
+          "asset_id": "asset-gmail-pro",
+          "permissions": [
+            "read",
+            "export",
+            "manage"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ben-child-1",
+      "display_name": "Lea Example",
+      "identifiers": [
+        {
+          "type": "email",
+          "value": "lea@example.com"
+        }
+      ],
+      "rights": [
+        {
+          "asset_id": "asset-wallet-btc",
+          "permissions": [
+            "read",
+            "export"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ben-child-2",
+      "display_name": "Noah Example",
+      "identifiers": [
+        {
+          "type": "email",
+          "value": "noah@example.com"
+        }
+      ],
+      "rights": [
+        {
+          "asset_id": "asset-wallet-btc",
+          "permissions": [
+            "read",
+            "export"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ben-public",
+      "display_name": "Public",
+      "identifiers": [
+        {
+          "type": "other",
+          "value": "public"
+        }
+      ],
+      "rights": [
+        {
+          "asset_id": "asset-likeness",
+          "permissions": [
+            "read"
+          ]
+        }
+      ]
+    }
+  ],
+  "triggers": [
+    {
+      "id": "trigger-death",
+      "type": "death",
+      "description": "Deces"
+    },
+    {
+      "id": "trigger-incapacity",
+      "type": "incapacity",
+      "description": "Incapacite"
+    },
+    {
+      "id": "trigger-date",
+      "type": "custom",
+      "description": "Date directive"
+    }
+  ],
+  "accepted_proofs": [
+    {
+      "trigger_id": "trigger-death",
+      "proofs": [
+        {
+          "type": "official_death_certificate",
+          "min_count": 1
+        },
+        {
+          "type": "attestation",
+          "min_count": 3
+        }
+      ]
+    },
+    {
+      "trigger_id": "trigger-incapacity",
+      "proofs": [
+        {
+          "type": "medical_certificate",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "trigger_id": "trigger-date",
+      "proofs": [
+        {
+          "type": "date_reached",
+          "min_count": 1
+        }
+      ]
+    }
+  ],
+  "created_at": "2026-10-05T11:00:00Z",
+  "updated_at": "2026-10-05T12:00:00Z",
+  "signature": {
+    "note": "Signature placeholder"
+  },
+  "language": "fr"
+}</script>
+
+<script>
+function get(id){return document.getElementById(id).textContent;}
+function showTab(n){
+  document.querySelectorAll('[id^=tab-]').forEach(e=>e.style.display='none');
+  document.getElementById('tab-'+n).style.display='block';
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('btn-'+n).classList.add('active');
+}
+document.getElementById('tab-overview').innerHTML='<pre>'+get('data-readme').replace(/</g,'&lt;')+'</pre>';
+document.getElementById('tab-spec').innerHTML='<pre>'+get('data-spec').replace(/</g,'&lt;')+'</pre>';
+document.getElementById('tab-questions').innerHTML='<pre>'+get('data-questions').replace(/</g,'&lt;')+'</pre>';
+document.getElementById('ex-readme').innerHTML='<pre>'+get('data-ex-readme').replace(/</g,'&lt;')+'</pre>';
+document.getElementById('ex-simple').textContent=get('data-simple');
+document.getElementById('ex-familial').textContent=get('data-familial');
+document.getElementById('ex-riche').textContent=get('data-riche');
+document.getElementById('tab-schema').innerHTML='<pre>'+get('data-schema').replace(/</g,'&lt;')+'</pre>';
+</script>
+</body>
+</html>
