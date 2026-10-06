@@ -4,6 +4,8 @@
 
 **Experimental draft v0.1. Not a standard. Not legally binding. Not security-audited.**
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23186473.svg)](https://doi.org/10.5281/zenodo.23186473)
+
 DataWill is a simple, open and interoperable format that lets a person declare, during their lifetime:
 
 - Who may access which digital assets
