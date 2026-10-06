@@ -1,18 +1,9 @@
 cff-version: 1.2.0
-message: "If you use or cite the DataWill specification, please cite it using the metadata below."
+message: "If you use this specification, please cite it as below."
 title: "DataWill: an open format for digital will declarations"
-abstract: "DataWill is an experimental, open, machine-readable format for describing who should receive access to which digital assets, under which conditions and with which proofs. Version 0.1 is a draft specification with a JSON Schema and examples. It is not a standard and has not been audited."
 version: "0.1.0"
 date-released: "2026-10-06"
 authors:
   - family-names: "MAIGA"
     given-names: "Mahamadou Issiaka"
 license: CC-BY-4.0
-repository-code: "https://github.com/maigus223/data-will"
-url: "https://maigus223.github.io/data-will/"
-keywords:
-  - digital will
-  - digital legacy
-  - open format
-  - specification
-  - json schema
