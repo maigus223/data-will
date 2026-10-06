@@ -1,0 +1,6 @@
+node_modules/
+demo/dist/
+.DS_Store
+__pycache__/
+*.pyc
+.venv/
