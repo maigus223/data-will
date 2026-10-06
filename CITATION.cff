@@ -3,7 +3,10 @@ message: "If you use this specification, please cite it as below."
 title: "DataWill: an open format for digital will declarations"
 version: "0.1.0"
 date-released: "2026-10-06"
+doi: 10.5281/zenodo.23186473
 authors:
   - family-names: "MAIGA"
     given-names: "Mahamadou Issiaka"
 license: CC-BY-4.0
+repository-code: "https://github.com/maigus223/data-will"
+url: "https://maigus223.github.io/data-will/"
